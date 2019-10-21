@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MediaMenuActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/media_bg" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#90242424" >
+
+        <LinearLayout
+            android:layout_marginTop="22dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/app_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="18dp"
+                android:fontFamily="@font/open_sans_semi_bold"
+                android:gravity="center"
+                android:text="@string/app_name_custom"
+                android:textColor="#ffffff"
+                android:textSize="38sp"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/media_cam_btn"
+                style="@style/media_screen_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/circle_outline"
+                android:drawableTop="@drawable/ic_photo_camera_50dp"
+                android:text="@string/camera" />
+
+            <TextView
+                android:id="@+id/media_video_btn"
+                style="@style/media_screen_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/circle_outline"
+                android:drawableTop="@drawable/ic_videocam_50dp"
+                android:text="@string/video" />
+
+            <TextView
+                android:id="@+id/media_gallery_btn"
+                style="@style/media_screen_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/circle_outline"
+                android:drawableTop="@drawable/ic_image_50dp"
+                android:text="@string/gallery" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+</RelativeLayout>
