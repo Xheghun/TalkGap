@@ -2,13 +2,12 @@ package com.xheghun.vidit.fragments;
 
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.xheghun.vidit.R;
@@ -40,21 +39,19 @@ public class HomeFragment extends Fragment {
         adapter.addFragment(new ChatsFragment(),"Chats");
         adapter.addFragment(new NewsFeedFragment(),"News Feed");
         adapter.addFragment(new CameraFragment(),"Record");
-
+/*
         int[] tabIcons = {
                 R.drawable.ic_chat,
                 R.drawable.ic_earth,
                 R.drawable.ic_camera
-        };
-
-
+        };*/
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setCurrentItem(1);
-        for (int i = 0; i < tabIcons.length; i++) {
+      /*  for (int i = 0; i < tabIcons.length; i++) {
             tabLayout.getTabAt(i).setIcon(tabIcons[i]);
-        }
+        }*/
         return view;
     }
 

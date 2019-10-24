@@ -68,10 +68,14 @@ class FourSnapActivity : AppCompatActivity() {
                         override fun onImageSaved(file: File) {
                             Log.v("Image", "Successfully saved image")
                             val image = file.absolutePath
-                            images.add(image)
+                            if(images.size > 15) {
+                             Toast.makeText(this@FourSnapActivity,"Maximum Of 16 Photos Allowed",Toast.LENGTH_SHORT).show()
+                            } else {
+                                images.add(image)
+                            }
 
 
-                            Toast.makeText(this@FourSnapActivity,"photo path: ${file.path},\n current image: $image",Toast.LENGTH_LONG).show()
+                            //Toast.makeText(this@FourSnapActivity,"photo path: ${file.path},\n current image: $image",Toast.LENGTH_LONG).show()
 
                             val layoutManager = LinearLayoutManager(this@FourSnapActivity)
                             layoutManager.orientation = RecyclerView.HORIZONTAL
@@ -102,9 +106,6 @@ class FourSnapActivity : AppCompatActivity() {
                                     Animate.fadeOutAnimation(next_btn)
                                 }
                             }
-
-
-
                            // Toast.makeText(this@FourSnapActivity,"Photo Taken",Toast.LENGTH_SHORT).show()
 
                         }

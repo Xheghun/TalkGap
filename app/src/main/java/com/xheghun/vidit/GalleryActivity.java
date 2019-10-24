@@ -1,11 +1,9 @@
 package com.xheghun.vidit;
 
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
-
-import android.content.pm.PackageManager;
-import android.os.Bundle;
-import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.xheghun.vidit.adapter.TabAdapter;
@@ -21,7 +19,7 @@ public class GalleryActivity extends AppCompatActivity {
     private static final int REQUEST_PERMISSION_KEY = 100;
     @BindView(R.id.gallery_viewpager)
     ViewPager pager;
-    @BindView(R.id.gallery_tablayout)
+    @BindView(R.id.gallery_tab_layout)
     TabLayout tabLayout;
 
     @Override
@@ -36,4 +34,9 @@ public class GalleryActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(pager);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }

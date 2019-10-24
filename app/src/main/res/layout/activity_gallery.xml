@@ -7,12 +7,26 @@
     android:orientation="vertical"
     tools:context=".GalleryActivity">
 
-   <com.google.android.material.tabs.TabLayout
-       android:id="@+id/gallery_tablayout"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:minHeight="?actionBarSize"
-       app:tabGravity="fill"/>
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="Select Media"
+            app:titleTextColor="@android:color/white"
+            android:background="@color/colorPrimary"/>
+        <com.google.android.material.tabs.TabLayout
+        android:id="@+id/gallery_tab_layout"
+        android:layout_width="match_parent"
+            app:tabSelectedTextColor="@android:color/white"
+            app:tabIndicatorColor="@android:color/white"
+        android:layout_height="wrap_content"
+        android:minHeight="?actionBarSize"
+            android:background="@color/colorPrimary"
+        app:tabGravity="fill"/>
+    </com.google.android.material.appbar.AppBarLayout>
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/gallery_viewpager"
         android:layout_width="match_parent"

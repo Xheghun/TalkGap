@@ -11,4 +11,8 @@
     <string name="gallery">Gallery</string>
     <string name="app_name_custom">- Talk Gap -</string>
     <string name="camera">Camera</string>
+    <string name="trim_video">Trim Video</string>
+    <string name="Cut">cut</string>
+    <string name="min_max">Select min of 4 and max of 16</string>
+    <string name="current_photo">Current Photo(s) </string>
 </resources>

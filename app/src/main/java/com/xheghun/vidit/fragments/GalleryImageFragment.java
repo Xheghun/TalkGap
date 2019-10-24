@@ -8,6 +8,8 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -36,6 +38,9 @@ public class GalleryImageFragment extends Fragment {
 
     @BindView(R.id.gallery_images_rc)
     RecyclerView recyclerView;
+
+    @BindView(R.id.current_text)
+    TextView currentText;
 
     private Cursor cursor;
     private List<GalleryMedia> imagesList;
@@ -71,26 +76,31 @@ public class GalleryImageFragment extends Fragment {
 
             //check if image is already selected
             if (!selectedImageList.contains(media.getPath())) {
-                selectedImageList.add(media.getPath());
+                if (selectedImageList.size() >= 16) {
+                    Toast.makeText(getContext(),"Maximum number of photos exceeded",Toast.LENGTH_SHORT).show();
+                }else {
+                    selectedImageList.add(media.getPath());
+                }
 
             }else if (selectedImageList.contains(media.getPath())) {
                 selectedImageList.remove(media.getPath());
             }
 
+            if (selectedImageList.size() > 16) {
+                Toast.makeText(getContext(),"Maximum number of photos exceeded",Toast.LENGTH_SHORT).show();
+            }
+
+            currentText.setText(getResources().getString(R.string.current_photo)+selectedImageList.size());
+
             //populate recyclerview
             selectedImages_rc.setAdapter(new SelectedItemAdapter(getContext(),selectedImageList));
-
-            if (selectedImageList.size() >= 1)
-                view.findViewById(R.id.selected_photos_layout).setVisibility(View.VISIBLE);
-            else
-                view.findViewById(R.id.selected_photos_layout).setVisibility(View.GONE);
-
-
 
 
             MaterialButton button = view.findViewById(R.id.selected_next_btn);
             if (selectedImageList.size() > 3 && selectedImageList.size() < 17) {
-                button.setVisibility(View.VISIBLE);
+                button.setEnabled(true);
+                button.setElevation(12.0f);
+                button.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                 button.setOnClickListener(v -> {
                    Intent intent = new Intent(getContext(), PhotoEditActivity.class);
                     String[] images = new String[selectedImageList.size()];
@@ -103,7 +113,10 @@ public class GalleryImageFragment extends Fragment {
                    startActivity(intent);
                 });
             } else {
-                button.setVisibility(View.GONE);
+                button.setEnabled(false);
+                button.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                button.setElevation(5.0f);
+
             }
         }));
         return view;

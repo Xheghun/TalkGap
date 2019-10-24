@@ -72,11 +72,15 @@ public class GalleryMediaAdapter extends RecyclerView.Adapter<GalleryMediaAdapte
                     .into(imageView);
             itemView.setOnClickListener(v -> {
                 int adapaterPosition = getAdapterPosition();
-                if (!itemStateArray.get(adapaterPosition, false)) {
-                    mediaSelected.setVisibility(View.VISIBLE);
-                    itemStateArray.put(adapaterPosition,true);
+                if (!itemStateArray.get(adapaterPosition, false) && mediaSelected != null ) {
+                    if (itemStateArray.size() <= 16) {
+                        mediaSelected.setVisibility(View.VISIBLE);
+                        itemStateArray.put(adapaterPosition, true);
+                    }
                 } else {
-                    mediaSelected.setVisibility(View.GONE);
+                    if (mediaSelected != null) {
+                        mediaSelected.setVisibility(View.GONE);
+                    }
                     itemStateArray.put(adapaterPosition,false);
                 }
                 listener.onItemClick(media);
