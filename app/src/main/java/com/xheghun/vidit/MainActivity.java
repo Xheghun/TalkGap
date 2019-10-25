@@ -2,31 +2,43 @@ package com.xheghun.vidit;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.xheghun.vidit.fragments.HomeFragment;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity {
 
+    @BindView(R.id.bottom_nav)
     BottomNavigationView bottomNavigation;
-    FrameLayout frameLayout;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
+    @BindView(R.id.record_vid)
     FloatingActionButton record_btn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         loadFragment(new HomeFragment());
 
-        bottomNavigation = findViewById(R.id.bottom_nav);
-        frameLayout = findViewById(R.id.fragment_container);
 
-        record_btn = findViewById(R.id.record_vid);
+        toolbar.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.update) {
+                startActivity(new Intent(getApplicationContext(), UpdateActivity.class));
+            }
+            return true;
+        });
 
         record_btn.setOnClickListener(v -> startActivity(new Intent(this,MediaMenuActivity.class)));
 

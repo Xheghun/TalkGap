@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.xheghun.vidit.adapter.EditPhotoRecyclerAdapter;
+import com.xheghun.vidit.adapter.EffectsRecyclerAdapter;
 import com.xheghun.vidit.models.GalleryMedia;
 
 import java.util.ArrayList;
@@ -26,6 +27,10 @@ public class PhotoEditActivity extends AppCompatActivity {
     @BindView(R.id.edit_image_rc)
     RecyclerView mRecyclerView;
 
+
+    @BindView(R.id.effects_recycler_view)
+    RecyclerView effectsRecycler;
+
     List<GalleryMedia> imagePath;
 
     @Override
@@ -39,7 +44,17 @@ public class PhotoEditActivity extends AppCompatActivity {
 
         String[] images = intent.getStringArrayExtra("images");
         imagePath = new ArrayList<>();
+        if (images != null) {
+            setupImages(images);
+        }
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(RecyclerView.HORIZONTAL);
 
+        effectsRecycler.setAdapter(new EffectsRecyclerAdapter(this));
+        effectsRecycler.setLayoutManager(layoutManager);
+    }
+
+    private void setupImages(String[] images) {
         //load first image
         Glide.with(this).load(images[0]).override(mImageView.getWidth(),mImageView.getHeight())
                 .into(mImageView);
@@ -58,8 +73,5 @@ public class PhotoEditActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(RecyclerView.HORIZONTAL);
         mRecyclerView.setLayoutManager(layoutManager);
-
-
-
     }
 }

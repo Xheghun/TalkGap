@@ -15,4 +15,13 @@
     <string name="Cut">cut</string>
     <string name="min_max">Select min of 4 and max of 16</string>
     <string name="current_photo">Current Photo(s) </string>
+    <string name="update">Update</string>
+    <string name="update_msg">The version of TalkGap you\'re using is outdated,
+    you need to upgrade to the latest version to enjoy the latest features of our app.</string>
+    <string name="talkgap">- TalkGap</string>
+    <string name="dear_user">Dear User</string>
+    <string name="check_for_updates">check for updates</string>
+    <string name="add_music">Add Music</string>
+    <string name="filters">Filters</string>
+    <string name="effects">Effects</string>
 </resources>
