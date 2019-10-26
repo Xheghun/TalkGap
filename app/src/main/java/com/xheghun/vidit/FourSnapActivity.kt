@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.os.Environment
 import android.util.Log
 import android.util.Rational
 import android.util.Size
@@ -38,8 +37,6 @@ val permissions = arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_
 
 class FourSnapActivity : AppCompatActivity() {
 
-    private val sd = Environment.getExternalStorageDirectory()
-
     private var lensFacing = CameraX.LensFacing.BACK
     private var imageCapture: ImageCapture? = null
 
@@ -56,8 +53,8 @@ class FourSnapActivity : AppCompatActivity() {
 
 
         snapButton.setOnClickListener{
-            val filename = "${System.currentTimeMillis()}.png"
-            val dest = File(sd, filename)
+            val filename =  "${System.currentTimeMillis()}.png"
+            val dest = File(filesDir, filename)
             imageCapture?.takePicture(dest,
                     object : ImageCapture.OnImageSavedListener {
                         override fun onError(error: ImageCapture.UseCaseError,
@@ -68,6 +65,7 @@ class FourSnapActivity : AppCompatActivity() {
                         override fun onImageSaved(file: File) {
                             Log.v("Image", "Successfully saved image")
                             val image = file.absolutePath
+                            //Toast.makeText(this@FourSnapActivity,file.absolutePath,Toast.LENGTH_LONG).show()
                             if(images.size > 15) {
                              Toast.makeText(this@FourSnapActivity,"Maximum Of 16 Photos Allowed",Toast.LENGTH_SHORT).show()
                             } else {
@@ -79,12 +77,12 @@ class FourSnapActivity : AppCompatActivity() {
 
                             val layoutManager = LinearLayoutManager(this@FourSnapActivity)
                             layoutManager.orientation = RecyclerView.HORIZONTAL
-                            Animate.fadeInAnimation(image_frame_recycler_view)
+                            Animate.fadeInAnimation(image_frame_recycler_view,this@FourSnapActivity)
                             image_frame_recycler_view.layoutManager = layoutManager
                             image_frame_recycler_view.adapter = ImageFrameAdapter(images,this@FourSnapActivity)
 
                             if (images.size in 4..16) {
-                                Animate.fadeInAnimation(next_btn)
+                                Animate.fadeInAnimation(next_btn,this@FourSnapActivity)
                                 next_btn.setOnClickListener {
 
                                     val array = arrayOfNulls<String>(images.size)
@@ -94,16 +92,16 @@ class FourSnapActivity : AppCompatActivity() {
                                     startActivity(intent)
                                 }
                             }else {
-                                Animate.fadeOutAnimation(next_btn)
+                                Animate.fadeOutAnimation(next_btn,this@FourSnapActivity)
                             }
 
                             if(images.size > 0) {
                                 clear_btn.visibility = View.VISIBLE
                                 clear_btn.setOnClickListener {
                                     images.clear()
-                                    Animate.fadeOutAnimation( image_frame_recycler_view)
-                                    Animate.fadeOutAnimation(clear_btn)
-                                    Animate.fadeOutAnimation(next_btn)
+                                    Animate.fadeOutAnimation( image_frame_recycler_view,this@FourSnapActivity)
+                                    Animate.fadeOutAnimation(clear_btn,this@FourSnapActivity)
+                                    Animate.fadeOutAnimation(next_btn,this@FourSnapActivity)
                                 }
                             }
                            // Toast.makeText(this@FourSnapActivity,"Photo Taken",Toast.LENGTH_SHORT).show()

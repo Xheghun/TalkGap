@@ -14,9 +14,11 @@ import com.xheghun.vidit.R;
 public class EffectsRecyclerAdapter extends RecyclerView.Adapter<EffectsRecyclerAdapter.EffectsViewHolder> {
 
     private Context mContext;
+    private String name;
 
-    public EffectsRecyclerAdapter(Context mContext) {
+    public EffectsRecyclerAdapter(Context mContext,String name) {
         this.mContext = mContext;
+        this.name = name;
     }
 
     @NonNull
@@ -28,7 +30,7 @@ public class EffectsRecyclerAdapter extends RecyclerView.Adapter<EffectsRecycler
 
     @Override
     public void onBindViewHolder(@NonNull EffectsViewHolder holder, int position) {
-        holder.textView.setText("Random Effect");
+        holder.textView.setText("Random "+name);
     }
 
     @Override

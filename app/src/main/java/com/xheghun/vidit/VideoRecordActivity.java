@@ -1,20 +1,15 @@
 package com.xheghun.vidit;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LifecycleOwner;
-
 import android.Manifest;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.view.TextureView;
 import android.widget.FrameLayout;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionDeniedResponse;
-import com.karumi.dexter.listener.PermissionGrantedResponse;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.single.PermissionListener;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LifecycleOwner;
+
 import com.xheghun.vidit.classes.ShowCamera;
 
 public class VideoRecordActivity extends AppCompatActivity implements LifecycleOwner {
@@ -36,28 +31,7 @@ public class VideoRecordActivity extends AppCompatActivity implements LifecycleO
         frameLayout = findViewById(R.id.video_frame);
 
 
-        Dexter.withActivity(getParent())
-                .withPermission(Manifest.permission.CAMERA)
-                .withListener(new PermissionListener() {
-                    @Override
-                    public void onPermissionGranted(PermissionGrantedResponse response) {
-                        //open camera
-                        camera = Camera.open();
-                        showCamera = new ShowCamera(getApplicationContext(), camera);
-                        frameLayout.addView(showCamera);
-                    }
 
-                    @Override
-                    public void onPermissionDenied(PermissionDeniedResponse response) {
-
-                    }
-
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
-
-                    }
-                })
-                .check();
 
 
     }

@@ -24,4 +24,6 @@
     <string name="add_music">Add Music</string>
     <string name="filters">Filters</string>
     <string name="effects">Effects</string>
+    <string name="themes">Themes</string>
+    <string name="next">next</string>
 </resources>

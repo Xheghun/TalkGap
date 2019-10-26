@@ -6,4 +6,5 @@
     <color name="colorPrimaryText">#212121</color>
     <color name="colorIcons">#FFFFFF</color>
     <color name="colorDarkTrans">#90242424</color>
+    <color name="colorWhite">#dcedc8</color>
 </resources>

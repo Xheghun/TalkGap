@@ -43,7 +43,6 @@
     <style name="text_btn" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:layout_margin">2dp</item>
         <item name="android:textAllCaps">false</item>
-        <item name="backgroundTint">@android:color/transparent</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:fontFamily">@font/open_sans_semi_bold</item>
     </style>

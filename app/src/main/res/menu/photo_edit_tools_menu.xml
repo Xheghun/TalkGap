@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="@string/filters"
+        android:id="@+id/filter"
+        android:icon="@drawable/ic_colorize"/>
+    <item android:title="@string/effects"
+        android:id="@+id/effects"
+        android:icon="@drawable/ic_brush"/>
+    <item android:title="@string/themes"
+        android:id="@+id/theme"
+        android:icon="@drawable/ic_color_lens"/>
+    <item android:title="@string/add_music"
+        android:id="@+id/add_music"
+        android:icon="@drawable/ic_music_note"/>
+
+</menu>

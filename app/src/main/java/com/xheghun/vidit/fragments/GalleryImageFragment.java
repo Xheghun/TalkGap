@@ -57,17 +57,13 @@ public class GalleryImageFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_gallery_image, container, false);
 
-
-
         ButterKnife.bind(this, view);
         getImages();
-
 
         RecyclerView selectedImages_rc = view.findViewById(R.id.selected_photos_rc);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(RecyclerView.HORIZONTAL);
         selectedImages_rc.setLayoutManager(layoutManager);
-
 
         selectedImageList = new ArrayList<>();
 
@@ -90,7 +86,7 @@ public class GalleryImageFragment extends Fragment {
                 Toast.makeText(getContext(),"Maximum number of photos exceeded",Toast.LENGTH_SHORT).show();
             }
 
-            currentText.setText(getResources().getString(R.string.current_photo)+selectedImageList.size());
+            currentText.setText(getResources().getString(R.string.current_photo)+" "+selectedImageList.size());
 
             //populate recyclerview
             selectedImages_rc.setAdapter(new SelectedItemAdapter(getContext(),selectedImageList));
@@ -98,9 +94,8 @@ public class GalleryImageFragment extends Fragment {
 
             MaterialButton button = view.findViewById(R.id.selected_next_btn);
             if (selectedImageList.size() > 3 && selectedImageList.size() < 17) {
-                button.setEnabled(true);
-                button.setElevation(12.0f);
                 button.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                button.setEnabled(true);
                 button.setOnClickListener(v -> {
                    Intent intent = new Intent(getContext(), PhotoEditActivity.class);
                     String[] images = new String[selectedImageList.size()];
@@ -114,9 +109,7 @@ public class GalleryImageFragment extends Fragment {
                 });
             } else {
                 button.setEnabled(false);
-                button.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                button.setElevation(5.0f);
-
+                button.setBackgroundColor(getResources().getColor(R.color.colorPrimaryText));
             }
         }));
         return view;
