@@ -20,17 +20,17 @@ public class GalleryMediaAdapter extends RecyclerView.Adapter<GalleryMediaAdapte
 
     private List<GalleryMedia> images;
     private Context mContext;
-    private final OnItemClickListener itemClickListenerlistener;
+    private final GalleryItemClickListener itemClickListener;
     private SparseBooleanArray itemStateArray = new SparseBooleanArray();
 
     //type 1 for image 2 for video
     private int type;
 
-    public GalleryMediaAdapter(List<GalleryMedia> images, Context mContext, int type, OnItemClickListener itemClickListener) {
+    public GalleryMediaAdapter(List<GalleryMedia> images, Context mContext, int type, GalleryItemClickListener itemClickListener) {
         this.images = images;
         this.mContext = mContext;
         this.type = type;
-        this.itemClickListenerlistener = itemClickListener;
+        this.itemClickListener = itemClickListener;
     }
 
     @NonNull
@@ -48,7 +48,7 @@ public class GalleryMediaAdapter extends RecyclerView.Adapter<GalleryMediaAdapte
 
     @Override
     public void onBindViewHolder(@NonNull GalleryImageViewHolder holder, int position) {
-        holder.bind(images.get(position),itemClickListenerlistener);
+        holder.bind(images.get(position), itemClickListener);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class GalleryMediaAdapter extends RecyclerView.Adapter<GalleryMediaAdapte
             imageView = itemView.findViewById(R.id.media_item);
         }
 
-        void bind(final GalleryMedia media, final OnItemClickListener listener) {
+        void bind(final GalleryMedia media, final GalleryItemClickListener listener) {
             Glide.with(mContext).load(media.getPath())
                     .override(imageView.getWidth(),imageView.getHeight())
                     .into(imageView);
@@ -74,12 +74,12 @@ public class GalleryMediaAdapter extends RecyclerView.Adapter<GalleryMediaAdapte
                 int adapaterPosition = getAdapterPosition();
                 if (!itemStateArray.get(adapaterPosition, false) && mediaSelected != null ) {
                     if (itemStateArray.size() <= 16) {
-                        mediaSelected.setVisibility(View.VISIBLE);
+                        mediaSelected.setImageResource(R.drawable.ic_verified);
                         itemStateArray.put(adapaterPosition, true);
                     }
                 } else {
                     if (mediaSelected != null) {
-                        mediaSelected.setVisibility(View.GONE);
+                        mediaSelected.setImageResource(0);
                     }
                     itemStateArray.put(adapaterPosition,false);
                 }
@@ -88,7 +88,7 @@ public class GalleryMediaAdapter extends RecyclerView.Adapter<GalleryMediaAdapte
         }
     }
 
-    public interface OnItemClickListener {
+     public interface GalleryItemClickListener {
         void onItemClick(GalleryMedia media);
     }
 }

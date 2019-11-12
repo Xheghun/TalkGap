@@ -11,17 +11,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.xheghun.vidit.R;
-import com.xheghun.vidit.models.GalleryMedia;
+import com.xheghun.vidit.models.ImageData;
 
 import java.util.List;
 
 public class EditPhotoRecyclerAdapter extends RecyclerView.Adapter<EditPhotoRecyclerAdapter.EditPhotoViewHolder> {
 
-    private List<GalleryMedia> mImagePath;
+    private List<ImageData> mImagePath;
     private final OnItemClickListener itemClickListenerlistener;
     Context mContext;
 
-    public EditPhotoRecyclerAdapter(Context context, List<GalleryMedia> imagePath, OnItemClickListener itemClickListenerlistener) {
+    public EditPhotoRecyclerAdapter(Context context, List<ImageData> imagePath, OnItemClickListener itemClickListenerlistener) {
         mImagePath = imagePath;
         this.itemClickListenerlistener = itemClickListenerlistener;
         mContext = context;
@@ -52,15 +52,15 @@ public class EditPhotoRecyclerAdapter extends RecyclerView.Adapter<EditPhotoRecy
             super(itemView);
             mImageView = itemView.findViewById(R.id.photo_image);
         }
-        void bind(final GalleryMedia galleryMedia, final OnItemClickListener listener) {
-            Glide.with(mContext).load(galleryMedia.getPath()).override(mImageView.getWidth(),mImageView.getHeight())
+        void bind(final ImageData imageData, final OnItemClickListener listener) {
+            Glide.with(mContext).load(imageData.getImageBitmap()).override(mImageView.getWidth(),mImageView.getHeight())
                     .into(mImageView);
 
-            itemView.setOnClickListener(v -> listener.onItemClick(galleryMedia));
+            itemView.setOnClickListener(v -> listener.onItemClick(imageData));
         }
     }
 
     public interface OnItemClickListener {
-        void onItemClick(GalleryMedia media);
+        void onItemClick(ImageData imageData);
     }
 }
