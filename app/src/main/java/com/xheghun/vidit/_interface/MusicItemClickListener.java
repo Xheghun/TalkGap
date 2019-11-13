@@ -1,4 +1,7 @@
-package com.xheghun.vidit.adapter;
+package com.xheghun.vidit._interface;
 
-interface MusicItemClickListener {
+import com.xheghun.vidit.models.MusicData;
+
+public interface MusicItemClickListener {
+    void onItemClick(MusicData data);
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,63 +8,58 @@
     tools:context=".fragments.GalleryImageFragment">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginBottom="80dp"
         android:id="@+id/gallery_images_rc"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="3" />
+        android:layout_height="match_parent"/>
 
     <RelativeLayout
+        android:layout_alignParentBottom="true"
         android:id="@+id/selected_photos_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#242424">
-
-        <LinearLayout
-            android:id="@+id/heading"
+        android:background="#95000000">
+        <TextView
+            android:textSize="14sp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:id="@+id/min_max"
+            android:text="@string/min_max"
+            android:textColor="@android:color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorAccent"
-            android:orientation="horizontal">
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@id/selected_next_btn"/>
 
             <TextView
+                android:layout_below="@+id/min_max"
                 android:id="@+id/current_text"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:layout_weight="1"
+                android:text="@string/pic_message"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@id/selected_next_btn"
                 android:fontFamily="@font/open_sans_semi_bold"
                 android:textColor="@android:color/white" />
 
             <com.google.android.material.button.MaterialButton
+                android:visibility="gone"
                 android:id="@+id/selected_next_btn"
                 android:layout_width="wrap_content"
+                android:layout_alignParentEnd="true"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                android:enabled="false"
                 android:text="@string/next"
                 android:textColor="@android:color/white"
-                app:backgroundTint="#424242" />
-        </LinearLayout>
-
-        <TextView
-            android:padding="4dp"
-            android:id="@+id/selected_image_tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/heading"
-            android:layout_gravity="center"
-            android:background="@color/colorAccent"
-            android:fontFamily="@font/open_sans_semi_bold"
-            android:gravity="center"
-            android:text="@string/min_max"
-            android:textColor="@android:color/white"
-            android:textSize="14sp" />
+                app:backgroundTint="@color/colorPrimary" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/selected_photos_rc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/selected_image_tv"
+            android:layout_below="@id/current_text"
             android:layout_margin="4dp" />
     </RelativeLayout>
-</LinearLayout>
+</RelativeLayout>

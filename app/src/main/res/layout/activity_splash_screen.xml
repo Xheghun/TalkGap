@@ -7,8 +7,34 @@
     tools:context=".SplashScreenActivity">
 
     <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="144dp"/>
+        android:id="@+id/logo"
+        android:layout_centerHorizontal="true"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_above="@id/app_name"
+        android:src="@drawable/logo"
+        android:layout_marginTop="200dp"/>
+
+    <TextView
+        android:layout_above="@id/slogan"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/app_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="28sp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/open_sans_bold"
+        android:text="@string/app_name"/>
+    <TextView
+        android:id="@+id/slogan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:fontFamily="@font/open_sans_regular_italic"
+        android:textColor="@color/colorPrimary"
+        android:layout_centerInParent="true"
+        android:text="Broadcast Your World"/>
+
 
 </RelativeLayout>

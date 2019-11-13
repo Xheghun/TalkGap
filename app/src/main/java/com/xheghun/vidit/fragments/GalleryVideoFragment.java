@@ -19,6 +19,7 @@ import com.xheghun.vidit.adapter.GalleryMediaAdapter;
 import com.xheghun.vidit.models.GalleryMedia;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -50,14 +51,13 @@ public class GalleryVideoFragment extends Fragment {
         getVideos();
 
 
-        recyclerView.setAdapter(new GalleryMediaAdapter(videoList, getContext(), 2, media -> {
+        recyclerView.setAdapter(new GalleryMediaAdapter(videoList, getContext(), 2, (media) -> {
             //Toast.makeText(getContext(), "media path is: "+media.getMediaPath(), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getContext(), VideoEditActivity.class);
             intent.putExtra("video_path",media.getPath());
             startActivity(intent);
         }));
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),4));
-
         return view;
     }
 
@@ -88,6 +88,7 @@ public class GalleryVideoFragment extends Fragment {
 
 
         }
+        Collections.reverse(videoList);
 
     }
 

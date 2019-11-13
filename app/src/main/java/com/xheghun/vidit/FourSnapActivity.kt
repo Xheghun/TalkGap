@@ -4,8 +4,6 @@ package com.xheghun.vidit
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.util.Rational
@@ -27,7 +25,6 @@ import com.xheghun.vidit.adapter.ImageFrameAdapter
 import com.xheghun.vidit.classes.Animate
 import kotlinx.android.synthetic.main.fragment_four_snaps.*
 import java.io.File
-import java.io.FileInputStream
 
 
 /**
@@ -79,14 +76,18 @@ class FourSnapActivity : AppCompatActivity() {
                             layoutManager.orientation = RecyclerView.HORIZONTAL
                             Animate.fadeInAnimation(image_frame_recycler_view,this@FourSnapActivity)
                             image_frame_recycler_view.layoutManager = layoutManager
-                            image_frame_recycler_view.adapter = ImageFrameAdapter(images,this@FourSnapActivity)
+                            image_frame_recycler_view.adapter = ImageFrameAdapter(images,this@FourSnapActivity, ImageFrameAdapter.ImageFrameCancelClick {
+                                path, _ ->
+                                run {
+                                    images.remove(path)
+                                    image_frame_recycler_view.adapter!!.notifyDataSetChanged()
+                                }
+                            })
 
                             if (images.size in 4..16) {
                                 Animate.fadeInAnimation(next_btn,this@FourSnapActivity)
                                 next_btn.setOnClickListener {
-
                                     val array = arrayOfNulls<String>(images.size)
-
                                     val intent = Intent(this@FourSnapActivity,PhotoEditActivity::class.java)
                                     intent.putExtra("images",images.toArray(array))
                                     startActivity(intent)
@@ -99,6 +100,8 @@ class FourSnapActivity : AppCompatActivity() {
                                 clear_btn.visibility = View.VISIBLE
                                 clear_btn.setOnClickListener {
                                     images.clear()
+                                    image_frame_recycler_view.adapter!!.notifyDataSetChanged()
+
                                     Animate.fadeOutAnimation( image_frame_recycler_view,this@FourSnapActivity)
                                     Animate.fadeOutAnimation(clear_btn,this@FourSnapActivity)
                                     Animate.fadeOutAnimation(next_btn,this@FourSnapActivity)
@@ -195,23 +198,6 @@ class FourSnapActivity : AppCompatActivity() {
         //Check if request permissions
         if (hasNoPermission()) {
             requestPermission()
-        }
-    }
-
-    private fun getBitmap(path: String): Bitmap? {
-        try {
-            var bitmap: Bitmap? = null
-            val file = File(path)
-            val options = BitmapFactory.Options()
-            options.inPreferredConfig = Bitmap.Config.ARGB_8888
-
-            bitmap = BitmapFactory.decodeStream(FileInputStream(file), null, options)
-
-
-            return bitmap!!
-        } catch (e: Exception) {
-
-            return null
         }
     }
 }

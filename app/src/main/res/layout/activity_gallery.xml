@@ -12,19 +12,21 @@
         android:layout_height="wrap_content">
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="?attr/actionBarSize"
             app:title="Select Media"
+            app:titleTextAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             app:titleTextColor="@android:color/white"
             android:background="@color/colorPrimary"/>
         <com.google.android.material.tabs.TabLayout
-        android:id="@+id/gallery_tab_layout"
-        android:layout_width="match_parent"
+            android:id="@+id/gallery_tab_layout"
+            android:layout_width="match_parent"
+            app:tabTextAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
             app:tabSelectedTextColor="@android:color/white"
             app:tabIndicatorColor="@android:color/white"
-        android:layout_height="wrap_content"
-        android:minHeight="?actionBarSize"
+            android:layout_height="wrap_content"
+            android:minHeight="?actionBarSize"
             android:background="@color/colorPrimary"
-        app:tabGravity="fill"/>
+            app:tabGravity="fill"/>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager.widget.ViewPager
