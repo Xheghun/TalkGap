@@ -62,11 +62,11 @@ public class GalleryMediaAdapter extends RecyclerView.Adapter<GalleryMediaAdapte
         GalleryImageViewHolder(@NonNull View itemView) {
             super(itemView);
             mediaSelected = itemView.findViewById(R.id.item_selected);
-
             imageView = itemView.findViewById(R.id.media_item);
         }
 
         void bind(final GalleryMedia media, final GalleryItemClickListener listener) {
+           // Bitmap bitmap = BitmapFactory.decodeFile(media.getPath());
             Glide.with(mContext).load(media.getPath())
                     .override(imageView.getWidth(),imageView.getHeight())
                     .into(imageView);
@@ -74,8 +74,8 @@ public class GalleryMediaAdapter extends RecyclerView.Adapter<GalleryMediaAdapte
                 int adapaterPosition = getAdapterPosition();
                 if (!itemStateArray.get(adapaterPosition, false) && mediaSelected != null ) {
                     if (itemStateArray.size() <= 16) {
-                        mediaSelected.setImageResource(R.drawable.ic_verified);
-                        itemStateArray.put(adapaterPosition, true);
+                            mediaSelected.setImageResource(R.drawable.ic_verified);
+                            itemStateArray.put(adapaterPosition, true);
                     }
                 } else {
                     if (mediaSelected != null) {
@@ -83,12 +83,12 @@ public class GalleryMediaAdapter extends RecyclerView.Adapter<GalleryMediaAdapte
                     }
                     itemStateArray.put(adapaterPosition,false);
                 }
-                listener.onItemClick(media);
+                listener.onItemClick(media, itemStateArray);
             });
         }
     }
 
      public interface GalleryItemClickListener {
-        void onItemClick(GalleryMedia media);
+        void onItemClick(GalleryMedia media, SparseBooleanArray itemsArray);
     }
 }

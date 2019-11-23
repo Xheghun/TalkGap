@@ -46,4 +46,8 @@
         <item name="android:textColor">@android:color/white</item>
         <item name="android:fontFamily">@font/open_sans_semi_bold</item>
     </style>
+
+    <style name="customHorzontalProgressBar" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:color">@color/colorPrimary</item>
+    </style>
 </resources>

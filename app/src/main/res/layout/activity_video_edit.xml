@@ -45,10 +45,10 @@
         android:id="@+id/progress"
         android:visibility="gone"
         android:indeterminate="true"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        style="@style/customHorzontalProgressBar"
         android:layout_below="@id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="5dp"/>
+        android:layout_height="8dp"/>
 
      <com.google.android.material.bottomnavigation.BottomNavigationView
          android:layout_width="match_parent"

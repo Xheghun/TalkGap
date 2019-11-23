@@ -30,7 +30,7 @@ public class EffectsRecyclerAdapter extends RecyclerView.Adapter<EffectsRecycler
 
     @Override
     public void onBindViewHolder(@NonNull EffectsViewHolder holder, int position) {
-        holder.textView.setText("Random "+name);
+        holder.textView.setText(name);
     }
 
     @Override

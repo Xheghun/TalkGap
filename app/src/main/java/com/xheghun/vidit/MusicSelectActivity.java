@@ -68,6 +68,7 @@ public class MusicSelectActivity extends AppCompatActivity {
             cursor.close();
         } else {
             Toast.makeText(this,"No Audio On this device",Toast.LENGTH_SHORT).show();
+            finish();
         }
         return musicDataList;
     }

@@ -51,7 +51,7 @@ public class GalleryVideoFragment extends Fragment {
         getVideos();
 
 
-        recyclerView.setAdapter(new GalleryMediaAdapter(videoList, getContext(), 2, (media) -> {
+        recyclerView.setAdapter(new GalleryMediaAdapter(videoList, getContext(), 2, (media, itemsArray) -> {
             //Toast.makeText(getContext(), "media path is: "+media.getMediaPath(), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getContext(), VideoEditActivity.class);
             intent.putExtra("video_path",media.getPath());

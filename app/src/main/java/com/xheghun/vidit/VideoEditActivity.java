@@ -46,6 +46,9 @@ public class VideoEditActivity extends AppCompatActivity {
     private Intent intent;
     private FFmpeg ffmpeg;
     private String videoPath;
+    private String newFileName;
+    private File dest;
+    private int duration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +57,13 @@ public class VideoEditActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         MediaController mediaController = new MediaController(this);
-        ffmpeg = FFmpeg.getInstance(this);
 
+
+        ffmpeg = FFmpeg.getInstance(this);
+        loadFFMpegBinaries();
         intent = getIntent();
+
+
         videoPath = intent.getStringExtra("video_path");
         playVideo();
 
@@ -76,8 +83,8 @@ public class VideoEditActivity extends AppCompatActivity {
             return true;
         });
 
-        String newFileName =  System.currentTimeMillis() + ".mp4";
-        File dest = new File(getFilesDir(),newFileName);
+        newFileName = System.currentTimeMillis() + ".mp4";
+        dest = new File(getFilesDir(), newFileName);
 
         bottom_nav.setOnNavigationItemSelectedListener(menuItem -> {
             switch (menuItem.getItemId()) {
@@ -85,49 +92,13 @@ public class VideoEditActivity extends AppCompatActivity {
                     Toast.makeText(VideoEditActivity.this, "Cropping...", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.cut_vid:
+                    String[] complexCommand = {"-ss", "" + rangeBar.getTickStart(), "-y", "-i", videoPath, "-t", "" + (rangeBar.getTickStart() - rangeBar.getTickEnd()),"-vcodec", "mpeg4", "-b:v", "2097152", "-b:a", "48000", "-ac", "2", "-ar", "22050", dest.getAbsolutePath()};
                     Toast.makeText(VideoEditActivity.this, "Cutting...", Toast.LENGTH_SHORT).show();
+                    executeCommand(complexCommand);
                     break;
                 case R.id.rotate_vid:
-                    String[] rotateCMD = {"-i", videoPath,"-vf","transpose=1","-c:a","copy",dest.getAbsolutePath()};
-                    try {
-                        ffmpeg.execute(rotateCMD,new ExecuteBinaryResponseHandler() {
-                            @Override
-                            public void onSuccess(String message) {
-                                super.onSuccess(message);
-                                Animate.fadeOutAnimation(progressBar,VideoEditActivity.this);
-                                Toast.makeText(VideoEditActivity.this, "done!", Toast.LENGTH_SHORT).show();
-                                Uri newFile = Uri.parse(dest.getAbsolutePath());
-                                videoView.setVideoURI(newFile);
-                                videoView.start();
-                                videoPath = dest.getAbsolutePath();
-                            }
-
-                            @Override
-                            public void onFailure(String message) {
-                                super.onFailure(message);
-                                //textView.setText(message);
-                                Animate.fadeOutAnimation(progressBar,VideoEditActivity.this);
-                                Toast.makeText(VideoEditActivity.this, message, Toast.LENGTH_LONG).show();
-                                Log.v("FFMPEG: ",message);
-
-                            }
-
-                            @Override
-                            public void onStart() {
-                                super.onStart();
-                                Animate.fadeInAnimation(progressBar,VideoEditActivity.this);
-                            }
-
-                            @Override
-                            public void onFinish() {
-                                super.onFinish();
-                                Animate.fadeOutAnimation(progressBar,VideoEditActivity.this);
-                               // Toast.makeText(VideoEditActivity.this, "finish", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    } catch (FFmpegCommandAlreadyRunningException e) {
-                        e.printStackTrace();
-                    }
+                    String[] rotateCMD = {"-i", videoPath,"-vf","transpose=1","-c:a","copy", dest.getAbsolutePath()};
+                    executeCommand(rotateCMD);
                     Toast.makeText(VideoEditActivity.this, "Rotating...", Toast.LENGTH_SHORT).show();
                     break;
             }
@@ -151,12 +122,15 @@ public class VideoEditActivity extends AppCompatActivity {
         videoView.setVideoURI(uri);
         videoView.start();
 
-        float tickEnd = (float) videoView.getDuration();
+        videoView.setOnPreparedListener(mp -> {
+            duration = mp.getDuration() / 1000;
+            rangeBar.setTickInterval(0.5f);
+            rangeBar.setTickStart(1);
+            rangeBar.setTickEnd(duration);
+        });
 
 
-        rangeBar.setTickInterval(0.5f);
-        rangeBar.setTickStart(1);
-        rangeBar.setTickEnd(tickEnd);
+
     }
     private void loadFFMpegBinaries() {
         try {
@@ -187,6 +161,52 @@ public class VideoEditActivity extends AppCompatActivity {
             });
         } catch (FFmpegNotSupportedException e) {
             e.printStackTrace();
+        }
+    }
+    private void executeCommand(String[] cmd) {
+        try {
+            ffmpeg.execute(cmd, new ExecuteBinaryResponseHandler() {
+                @Override
+                public void onSuccess(String message) {
+                    super.onSuccess(message);
+                    Animate.fadeOutAnimation(progressBar,VideoEditActivity.this);
+                    Toast.makeText(VideoEditActivity.this, "done!", Toast.LENGTH_SHORT).show();
+                    Uri newFile = Uri.parse(dest.getAbsolutePath());
+                    videoView.setVideoURI(newFile);
+                    videoView.start();
+                    videoPath = dest.getAbsolutePath();
+                }
+
+                @Override
+                public void onProgress(String message) {
+                    super.onProgress(message);
+                }
+
+                @Override
+                public void onFailure(String message) {
+                    super.onFailure(message);
+                    Animate.fadeOutAnimation(progressBar,VideoEditActivity.this);
+                    //Toast.makeText(VideoEditActivity.this, message, Toast.LENGTH_LONG).show();
+                    Log.e("FFMPEG: ",message);
+                }
+
+                @Override
+                public void onStart() {
+                    super.onStart();
+                    Animate.fadeInAnimation(progressBar,VideoEditActivity.this);
+                }
+
+                @Override
+                public void onFinish() {
+                    super.onFinish();
+                    Animate.fadeOutAnimation(progressBar,VideoEditActivity.this);
+                    ffmpeg.killRunningProcesses();
+                    // Toast.makeText(VideoEditActivity.this, "finish", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (FFmpegCommandAlreadyRunningException e) {
+            Toast.makeText(this,"unable to perform task",Toast.LENGTH_LONG).show();
+            Log.e("VideoEdit->FFMPEG:","FFMPEG PRocess Already running");
         }
     }
 }

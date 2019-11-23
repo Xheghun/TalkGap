@@ -26,7 +26,6 @@ import com.xheghun.vidit.classes.Animate;
 import com.xheghun.vidit.models.GalleryMedia;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -73,7 +72,7 @@ public class GalleryImageFragment extends Fragment {
         selectedImageList = new ArrayList<>();
 
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),4,RecyclerView.VERTICAL,false));
-        recyclerView.setAdapter(new GalleryMediaAdapter(imagesList, getContext(), 1, media -> {
+        recyclerView.setAdapter(new GalleryMediaAdapter(imagesList, getContext(), 1, (media, itemsArray) -> {
             //check if image is already selected
             if (!selectedImageList.contains(media.getPath())) {
                 if (selectedImageList.size() >= 16) {
@@ -98,14 +97,18 @@ public class GalleryImageFragment extends Fragment {
             selectedImages_rc.setAdapter(new ImageFrameAdapter(selectedImageList, getContext(), (path, position) -> {
                 selectedImageList.remove(path);
                 selectedImages_rc.getAdapter().notifyDataSetChanged();
+                recyclerView.getAdapter().notifyDataSetChanged();
             }));
             selectedImages_rc.scrollToPosition(selectedImages_rc.getChildCount());
-            Collections.reverse(selectedImageList);
+
+           // Collections.reverse(selectedImageList);
+
             MaterialButton button = view.findViewById(R.id.selected_next_btn);
             if (selectedImageList.size() > 3 && selectedImageList.size() < 17) {
                 if (button.getVisibility() == View.GONE) {
                     Animate.fadeInAnimation(button,getContext());
                 }
+
 
                 button.setOnClickListener(v -> {
                    Intent intent = new Intent(getContext(), PhotoEditActivity.class);
@@ -149,7 +152,7 @@ public class GalleryImageFragment extends Fragment {
             image.setPath(cursor.getString(dataColumnIndex));
             imagesList.add(image);
         }
-        Collections.reverse(imagesList);
+       // Collections.reverse(imagesList);
     }
 
     @Override

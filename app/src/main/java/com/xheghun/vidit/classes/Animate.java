@@ -15,6 +15,12 @@ public class Animate {
         view.setVisibility(View.GONE);
    }
 
+    public static void fadeOutAnimationIV(View view,Context context) {
+        Animation animation = AnimationUtils.loadAnimation(context,R.anim.fade_out);
+        view.startAnimation(animation);
+        view.setVisibility(View.INVISIBLE);
+    }
+
    public static void fadeInAnimation (View view,Context context) {
         view.setVisibility(View.VISIBLE);
         Animation animation = AnimationUtils.loadAnimation(context,R.anim.fade_in);

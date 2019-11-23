@@ -2,6 +2,7 @@ package com.xheghun.vidit
 
 
 import android.Manifest
+import android.app.ProgressDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -20,9 +21,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.github.hiteshsondhi88.libffmpeg.FFmpeg
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.xheghun.vidit.adapter.ImageFrameAdapter
 import com.xheghun.vidit.classes.Animate
+import com.xheghun.vidit.classes.FFmpegSingleton
+import com.xheghun.vidit.classes.FileOperation
 import kotlinx.android.synthetic.main.fragment_four_snaps.*
 import java.io.File
 
@@ -47,11 +51,13 @@ class FourSnapActivity : AppCompatActivity() {
         bindCamera()
 
         val images = ArrayList<String>()
-
-
+        var x = 0
         snapButton.setOnClickListener{
-            val filename =  "${System.currentTimeMillis()}.png"
-            val dest = File(filesDir, filename)
+           // Toast.makeText(this@FourSnapActivity,"$filesDir",Toast.LENGTH_LONG).show()
+            val filename =  "img_$x.png"
+            Toast.makeText(this,"$x",Toast.LENGTH_SHORT).show()
+            x++
+            var dest = File(filesDir, filename)
             imageCapture?.takePicture(dest,
                     object : ImageCapture.OnImageSavedListener {
                         override fun onError(error: ImageCapture.UseCaseError,
@@ -88,9 +94,31 @@ class FourSnapActivity : AppCompatActivity() {
                                 Animate.fadeInAnimation(next_btn,this@FourSnapActivity)
                                 next_btn.setOnClickListener {
                                     val array = arrayOfNulls<String>(images.size)
-                                    val intent = Intent(this@FourSnapActivity,PhotoEditActivity::class.java)
+                                    val dialog = ProgressDialog(this@FourSnapActivity)
+                                    dialog.setMessage("please wait")
+                                    dialog.setTitle("Processing Images")
+                                    val newFileName = System.currentTimeMillis().toString() + ".mp4"
+                                    val dest = File(filesDir, newFileName)
+
+
+                                    val fFmpeg: FFmpeg = FFmpeg.getInstance(this@FourSnapActivity)
+                                    //-start_number n -i test_%d.jpg -vcodec mpeg4 test.avi
+                                    //val cmd = arrayOf("-r","60","-f","image2","-s","1920x1080","-i","$filesDir/img%0${x}d.png","-vcodec","libx264","-crf","25","-pix_fmt","yuv420p",dest.absolutePath)
+
+
+
+                                    val cmd  = arrayOf("-i","$filesDir/img_%d.png","-vcodec","mpeg4",dest.absolutePath)
+                                    dialog.show()
+                                    if (FFmpegSingleton.executeCmD(this@FourSnapActivity,cmd)){
+                                        dialog.dismiss()
+                                        //Toast.makeText(this@FourSnapActivity,"success",Toast.LENGTH_SHORT).show()
+                                    }else {
+                                        dialog.dismiss()
+                                        //Toast.makeText(this@FourSnapActivity,"failed",Toast.LENGTH_SHORT).show()
+                                    }
+                                   /* val intent = Intent(this@FourSnapActivity,PhotoEditActivity::class.java)
                                     intent.putExtra("images",images.toArray(array))
-                                    startActivity(intent)
+                                    startActivity(intent)*/
                                 }
                             }else {
                                 Animate.fadeOutAnimation(next_btn,this@FourSnapActivity)
@@ -103,7 +131,7 @@ class FourSnapActivity : AppCompatActivity() {
                                     image_frame_recycler_view.adapter!!.notifyDataSetChanged()
 
                                     Animate.fadeOutAnimation( image_frame_recycler_view,this@FourSnapActivity)
-                                    Animate.fadeOutAnimation(clear_btn,this@FourSnapActivity)
+                                    Animate.fadeOutAnimationIV(clear_btn,this@FourSnapActivity)
                                     Animate.fadeOutAnimation(next_btn,this@FourSnapActivity)
                                 }
                             }
@@ -112,6 +140,9 @@ class FourSnapActivity : AppCompatActivity() {
                         }
                     }
             )
+        }
+        if (images.size < 3) {
+            Animate.fadeOutAnimation(next_btn,this)
         }
 
         flashToggle.setOnClickListener {
@@ -199,5 +230,13 @@ class FourSnapActivity : AppCompatActivity() {
         if (hasNoPermission()) {
             requestPermission()
         }
+    }
+
+    override fun onStop() {
+        if (FileOperation.deleteAllFiles(filesDir.absolutePath))
+            Toast.makeText(this,"files deleted",Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this,"On Stop Called", Toast.LENGTH_SHORT).show()
+        super.onStop()
+
     }
 }

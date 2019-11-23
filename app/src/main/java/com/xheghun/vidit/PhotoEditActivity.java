@@ -107,10 +107,10 @@ public class PhotoEditActivity extends AppCompatActivity {
         });
         filter_rc.setAdapter(adapter);
 
-        effects_rc.setAdapter(new EffectsRecyclerAdapter(this, "Effects"));
+        effects_rc.setAdapter(new EffectsRecyclerAdapter(this, "effect"));
         effects_rc.setLayoutManager(new LinearLayoutManager(this,RecyclerView.HORIZONTAL,false));
 
-        theme_rc.setAdapter(new EffectsRecyclerAdapter(this,"Theme"));
+        theme_rc.setAdapter(new EffectsRecyclerAdapter(this,"theme"));
         theme_rc.setLayoutManager(new LinearLayoutManager(this,RecyclerView.HORIZONTAL,false));
 
         bottom_nav.setOnNavigationItemSelectedListener(menuItem -> {

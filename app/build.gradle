@@ -51,6 +51,7 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'com.writingminds:FFmpegAndroid:0.3.2'
+    implementation 'org.jcodec:jcodec:0.2.3'
     implementation 'com.appyvet:materialrangebar:1.4.7'
     implementation 'com.github.yellowcath:PhotoMovie:1.6.4'
     implementation 'com.github.zomato:androidphotofilters:1.0.2'
